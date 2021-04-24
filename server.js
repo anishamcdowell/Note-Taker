@@ -55,15 +55,23 @@ app.post("/api/notes", (req, res) => {
 
 app.delete("/api/notes/:id", (req, res) => {
     //use fs to read data and store to notesArray
+    console.log(req.params.id);
     readFileSync('db/db.json', 'utf8').then(data => {
        const notesArray = JSON.parse(data);
+       let deletedNote;
       
-       // how to remove the note with req.params.id === note.id
-   
+       // remove the note with req.params.id === note.id
+       notesArray.map((note, index) => {
+        if (note.id === req.params.id) {
+            deletedNote = index;
+        }
+       });
+       
+       notesArray.splice(deletedNote, 1);
+
        //use fs to rewrite to db.json w/ updated notesArray
        writeFileSync('db/db.json', JSON.stringify(notesArray));
-
-        res.json(newNote);
+        res.json(notesArray);
     });
 });
 
