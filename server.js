@@ -10,7 +10,7 @@ const writeFileSync = util.promisify(fs.writeFile);
 
 // Establish Express App
 const app = express();
-const PORT = 7500;
+const PORT = process.env.PORT || 7500;
 
 // Handle data parsing via Express
 app.use(express.urlencoded({ extended: true}));
